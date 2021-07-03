@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "inquirer": "^8.1.1",
+    "mysql": "^2.18.1"
+  },
+  "name": "employee_tracker_2021",
+  "description": "app to create a database for your employees",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Randy-chou/employee_tracker_2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Randy-chou/employee_tracker_2021/issues"
+  },
+  "homepage": "https://github.com/Randy-chou/employee_tracker_2021#readme"
+}
