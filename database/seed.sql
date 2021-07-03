@@ -27,5 +27,6 @@ CREATE TABLE department (
   PRIMARY KEY (id)
 );
 
-INSERT INTO products (flavor, price, quantity)
-VALUES ("vanilla", 2.50, 100);
+INSERT INTO department (name) VALUES ("Human Resources");
+INSERT INTO department (name) VALUES ("Customer Service");
+INSERT INTO department (name) VALUES ("IT");

@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 
   // Be sure to update with your own MySQL password!
   password: 'Chou0124',
-  database: 'ice_creamDB',
+  database: 'employee_trackerDB',
 });
 
 const exit = () => {connection.end()}
@@ -20,12 +20,32 @@ connection.connect((err) => {
     if (err) throw err;
 });
 
-const display = () => {
-    connection.query('SELECT * FROM products', (err, res) => {
-        if (err) throw err;
-        // Log all results of the SELECT statement
-        console.table(res);
+const displayDepartments = () => {
+    return new Promise((resolve,reject) => {
+        connection.query('SELECT * FROM department', (err, res) => {
+            if (err) throw err;
+            // Log all results of the SELECT statement
+            console.table(res);
+            resolve(res);
+        });
     });
 }
 
-module.exports = {exit, display};
+module.exports = {exit, displayDepartments};
+
+// Promise
+// const promiseTest = new Promise((resolve, reject) => {
+//     connection.query('SELECT * FROM department', (err, res) => {
+//         if (err) throw err;
+//         // Log all results of the SELECT statement
+//         console.table(res);
+//     });
+// });
+
+// const displayDepartments = () => {
+//     connection.query('SELECT * FROM department', (err, res) => {
+//         if (err) throw err;
+//         // Log all results of the SELECT statement
+//         console.table(res);
+//     });
+// }

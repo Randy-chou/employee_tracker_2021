@@ -30,8 +30,7 @@ function toMenu(){
     inquirer.prompt(questions_main).then((data) =>{
         switch(data.choice) {
             case "View departments":
-                console.log("Viewing departments...");
-                toMenu();
+                database.displayDepartments().then(toMenu);
                 break;
             case "View roles":
                 console.log("Viewing roles..");
