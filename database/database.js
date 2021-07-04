@@ -206,7 +206,14 @@ const updateManager = () => {
 }
 
 const viewByManager = () => {
-    
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT concat(a.first_name," ",a.last_name) AS "manager", concat(b.first_name," ",b.last_name) AS "employee" FROM employee a RIGHT JOIN employee b ON a.id = b.manager_id WHERE b.manager_id IS NOT NULL ORDER BY concat(a.first_name," ",a.last_name) ASC;', (err, res) => {
+            if (err) throw err;
+            // Log all results of the SELECT statement
+            console.table(res);
+            resolve(res);
+        });
+    });
 }
 
 module.exports = {
@@ -218,5 +225,6 @@ module.exports = {
     addRole,
     addEmployee,
     updateRole,
-    updateManager
+    updateManager,
+    viewByManager
 };
