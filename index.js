@@ -33,12 +33,10 @@ function toMenu(){
                 database.displayDepartments().then(toMenu);
                 break;
             case "View roles":
-                console.log("Viewing roles..");
-                toMenu();
+                database.displayRoles().then(toMenu);
                 break;
             case "View employees":
-                console.log("Viewing employees...");
-                toMenu();
+                database.displayEmployees().then(toMenu);
                 break;
             case "Add department":
                 console.log("Adding deparment...");
@@ -57,7 +55,7 @@ function toMenu(){
                 toMenu();
                 break;
             case "Finish":
-                console.log("Exiting Tracker...");
+                console.log("Exiting Employee Tracker...");
                 database.exit();
                 break;
             default:
