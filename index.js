@@ -39,20 +39,16 @@ function toMenu(){
                 database.displayEmployees().then(toMenu);
                 break;
             case "Add department":
-                console.log("Adding deparment...");
-                toMenu();
+                database.addDepartment().then(toMenu);
                 break;
             case "Add role":
-                console.log("Adding role...");
-                toMenu();
+                database.addRole().then(toMenu);
                 break;
             case "Add employee":
-                console.log("Adding employee...");
-                toMenu();
+                database.addEmployee().then(toMenu);
                 break;
             case "Update employee role":
-                console.log("Update employee role...");
-                toMenu();
+                database.updateRole().then(toMenu);
                 break;
             case "Finish":
                 console.log("Exiting Employee Tracker...");
