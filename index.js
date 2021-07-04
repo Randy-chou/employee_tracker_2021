@@ -22,7 +22,7 @@ let questions_main = [
         type: 'list',
         message: 'What would you like to do?:',
         name: 'choice',
-        choices: ["View departments", "View roles", "View employees", "Add department", "Add role", "Add employee", "Update employee role", "Finish"]
+        choices: ["View departments", "View roles", "View employees", "View employees by managers", "Add department", "Add role", "Add employee", "Update employee role", "Update employee manager", "Finish"]
     }
 ]
 
@@ -49,6 +49,12 @@ function toMenu(){
                 break;
             case "Update employee role":
                 database.updateRole().then(toMenu);
+                break;
+            case "Update employee manager":
+                database.updateManager().then(toMenu);
+                break;
+            case "View employees by managers":
+                database.viewByManager().then(toMenu);
                 break;
             case "Finish":
                 console.log("Exiting Employee Tracker...");

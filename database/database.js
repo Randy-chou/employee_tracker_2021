@@ -164,7 +164,7 @@ const updateRole = () => {
                     }],
                     (err, res) => {
                         if (err) throw err;
-                        console.log("Updating employee...");
+                        console.log("Updating employee role...");
                         resolve();
                     });
                 });
@@ -173,7 +173,41 @@ const updateRole = () => {
     });
 }
 
+const updateManager = () => {
+    return new Promise((resolve,reject) => {
+        connection.query("SELECT concat(first_name,' ',last_name) AS name, id AS value FROM employee", (err, res) => {
+            if (err) throw err;
+            let questions = [{
+                type: 'list',
+                message: 'Pick an employee to change manager:',
+                name: 'employee',
+                choices: res,
+            },{
+                type: 'list',
+                message: 'Pick their new manager:',
+                name: 'newManager',
+                choices: [...res, {name: "No manager", value: null}],
+            }];
+            inquirer.prompt(questions).then((data) => {
+                connection.query("UPDATE employee SET ? WHERE ?",
+                [{
+                    manager_id: data.newManager,
+                },{
+                    id: data.employee,
+                }],
+                (err, res) => {
+                    if (err) throw err;
+                    console.log("Updating employee manager...");
+                    resolve();
+                });
+            });
+        }); 
+    });
+}
 
+const viewByManager = () => {
+    
+}
 
 module.exports = {
     exit, 
@@ -183,5 +217,6 @@ module.exports = {
     addDepartment,
     addRole,
     addEmployee,
-    updateRole
+    updateRole,
+    updateManager
 };
