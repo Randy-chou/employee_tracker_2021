@@ -301,6 +301,32 @@ const removeDepartment = () => {
     });
 }
 
+const getDepSalary = () => {
+    return new Promise((resolve,reject)=>{
+        connection.query("SELECT name, id AS value FROM department", (err, res) => {
+            if (err) throw err;
+            let questions = [{
+                type: 'list',
+                message: 'Pick a department to remove:',
+                name: 'dep',
+                choices: res,
+            }];
+            inquirer.prompt(questions).then((data) => {
+                connection.query("Select a.first_name AS 'first name', a.last_name AS 'last name', concat(b.first_name,' ',b.last_name) AS manager, title, salary, name AS department From employee a LEFT JOIN employee b ON a.manager_id = b.id LEFT JOIN role ON a.role_id = role.id LEFT JOIN department ON role.department_id = department.id WHERE ?",
+                [{department_id: data.dep}]
+                , (err, res) => {
+                    if (err) throw err;
+                    // Log all results of the SELECT statement
+                    console.table(res);
+                    let reducer = (acc,curr) => acc + curr.salary;
+                    console.log(`Total salary:${res.reduce(reducer,0)}`)
+                    resolve(res);
+                });
+            });
+        });
+    });
+}
+
 module.exports = {
     exit, 
     displayDepartments, 
@@ -314,5 +340,6 @@ module.exports = {
     viewByManager,
     fireEmployee,
     removeRole,
-    removeDepartment
+    removeDepartment,
+    getDepSalary
 };
