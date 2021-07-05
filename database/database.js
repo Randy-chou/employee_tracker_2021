@@ -216,6 +216,91 @@ const viewByManager = () => {
     });
 }
 
+const fireEmployee = () => {
+    return new Promise((resolve, reject)=>{
+        connection.query("SELECT concat(first_name,' ',last_name) AS name, id AS value FROM employee", (err, res) => {
+            if (err) throw err;
+            let questions = [{
+                type: 'list',
+                message: 'Pick an employee to fire:',
+                name: 'employee',
+                choices: res,
+            }];
+            inquirer.prompt(questions).then((data) => {
+                connection.query("DELETE FROM employee WHERE ?",
+                {
+                    id: data.employee
+                },
+                (err, res) => {
+                    if (err) throw err;
+                    console.log("Removing employee...");
+                    resolve();
+                });
+            });
+        }); 
+    });
+}
+
+const removeRole = () => {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT title AS name, id AS value FROM role", (err, res) => {
+            if (err) throw err;
+            let questions = [{
+                type: 'list',
+                message: 'Pick an role to remove:',
+                name: 'role',
+                choices: res,
+            }];
+            inquirer.prompt(questions).then((data) => {
+                connection.query("DELETE FROM role WHERE ?",
+                    [{id: data.role}],
+                    (err, res) => {
+                        if (err) throw err;
+                        connection.query("DELETE FROM employee WHERE ?",
+                            [{role_id: data.role}],
+                            (err, res) => {
+                                if (err) throw err;
+                                console.log("Removing role...");
+                                resolve();
+                            });
+                    });
+            });
+        });
+    });
+}
+
+const removeDepartment = () => {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT name, id AS value FROM department", (err, res) => {
+            if (err) throw err;
+            let questions = [{
+                type: 'list',
+                message: 'Pick a department to remove:',
+                name: 'dep',
+                choices: res,
+            }];
+            inquirer.prompt(questions).then((data) => {
+                connection.query("DELETE FROM employee WHERE id <> 0 AND role_id IN (SELECT id FROM role WHERE ?)",
+                    [{department_id: data.dep}],
+                    (err, res) => {
+                        connection.query("DELETE FROM role WHERE ?",
+                            [{ department_id: data.dep }],
+                            (err, res) => {
+                                if (err) throw err;
+                                connection.query("DELETE FROM department WHERE ?",
+                                    [{ id: data.dep }],
+                                    (err, res) => {
+                                        if (err) throw err;
+                                        console.log("Removing role...");
+                                        resolve();
+                                    });
+                            });
+                    });
+            });
+        });
+    });
+}
+
 module.exports = {
     exit, 
     displayDepartments, 
@@ -226,5 +311,8 @@ module.exports = {
     addEmployee,
     updateRole,
     updateManager,
-    viewByManager
+    viewByManager,
+    fireEmployee,
+    removeRole,
+    removeDepartment
 };
